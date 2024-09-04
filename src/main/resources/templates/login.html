@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+       <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <title>DVDMS User Managment System Application</title>
+
+    <!-- Importing Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/style.css}" />
+
+    <!-- Embedding CSS directly -->
+   <!--  <style>
+       
+    </style> -->
+</head>
+
+<body>
+  
+        <button class="modal-button">Click here to login</button>
+   
+
+
+    <div class="container"></div>
+
+    <div class="modal">
+        <div class="modal-container">
+            <div class="modal-left">
+                <h1 class="modal-title">Welcome!</h1>
+               <p class="modal-desc">Manage your account effortlessly with our user management system.</p>
+
+                <form th:action="@{/login}" method="post">
+              <div class="input-block">
+                   <label for="username">Username:</label>
+            <input type="text" class="form-control" id="username" name="username" placeholder="Enter username" required>
+                </div>
+
+                <div class="input-block">
+                    <label for="password">Password:</label>
+            <input type="text" class="form-control" id="password" name="password" placeholder="Enter password" required>
+                </div>
+                
+                <div class="login_form">
+                        <div id="captcha">
+                            <div class="preview"></div>
+                            <div class="captcha_form">
+                                <input type="text" id="captcha_form" class="form_input_captcha" placeholder=" ">
+                                <label class="form_label_captcha">Enter Captcha</label>
+                                <button class="captcha_refersh">
+                                  
+                                 <i class="fa fa-refresh fa-spin" style="font-size:24px"></i>
+                                </button>
+                            </div>
+                        </div>
+                </div>
+                
+                
+
+                <div class="modal-buttons">
+                   
+                    <button  type="submit"  class="input-button">Login</button>
+                </div>
+                 </form>
+              
+            </div>
+
+            <div class="modal-right">
+             <img src="../images/image12.png" >
+             
+        <!--    background-image: url('../images/loginicon.png'); -->
+
+            </div>
+        </div>
+    <!--  <footer class="footer">
+    <div class="footer-content">
+        <img src="../images/usm.png" alt="User Management System Logo">
+        <div class="footer-text-container">
+            <h3 class="footer-heading">User Management System</h3>
+            <p class="footer-text">User Management System Application</p>
+        </div>
+    </div>
+</footer> -->
+
+      
+    </div>
+
+    <!-- Embedding JavaScript directly -->
+    <script>
+        var modal = document.querySelector(".modal");
+        var trigger = document.querySelector(".modal-button");
+        var closeButton = document.querySelector(".close-button");
+
+        function toggleModal() {
+            modal.classList.toggle("is-open");
+        }
+
+        trigger.addEventListener("click", toggleModal);
+          (function(){
+            const fonts = ["cursive"];
+            let captchaValue = "";
+            
+            function gencaptcha() {
+                let value = btoa(Math.random()*1000000000);
+                value = value.substr(0,5 + Math.random()*5);
+                captchaValue = value;
+            }
+
+            function setcaptcha() {
+                let html = captchaValue.split("").map((char)=>{
+                    const rotate = -20 + Math.trunc(Math.random()*30);
+                    const font = Math.trunc(Math.random()*fonts.length);
+                    return `<span
+                    style="
+                    transform:rotate(${rotate}deg);
+                    font-family:${fonts[font]};
+                    "
+                    >${char} </span>`;
+                }).join("");
+                document.querySelector(".login_form #captcha .preview").innerHTML = html;
+            }
+
+            function initCaptcha() {
+                document.querySelector(".login_form #captcha .captcha_refersh").addEventListener("click",function(){
+                    gencaptcha();
+                    setcaptcha();
+                });
+
+                gencaptcha();
+                setcaptcha();
+            }
+            initCaptcha();
+
+            document.querySelector(".login_form .input-button").addEventListener("click",function(){
+                let inputcaptchavalue = document.querySelector(".login_form #captcha input").value;
+
+                if (inputcaptchavalue === captchaValue) {
+                    alert("Log in success");
+                } else {
+                    alert("Invalid Captcha");
+                }
+            });
+        })();
+        
+      </script>
+</body>
+
+</html>
